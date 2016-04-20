@@ -3,6 +3,8 @@ package TeamCity::Message;
 use strict;
 use warnings;
 
+our $VERSION = '0.01';
+
 use Exporter qw( import );
 
 our @EXPORT = qw( tc_message );
