@@ -1,4 +1,5 @@
 requires "Exporter" => "0";
+requires "Time::HiRes" => "0";
 requires "perl" => "5.006";
 requires "strict" => "0";
 requires "warnings" => "0";
