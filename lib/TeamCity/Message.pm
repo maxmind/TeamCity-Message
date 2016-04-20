@@ -5,6 +5,8 @@ use warnings;
 
 our $VERSION = '0.01';
 
+use Time::HiRes qw( time );
+
 use Exporter qw( import );
 
 ## no critic (Modules::ProhibitAutomaticExportation)
