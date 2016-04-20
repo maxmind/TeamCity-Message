@@ -126,18 +126,18 @@ sub _parse_and_test_message {
         );
     }
 
-    $content =~ s/ timestamp='(.+?)'//;
-    my $timestamp = $1;
-
-    ok(
-        defined $timestamp,
-        'message has a timestamp'
-    );
-    if ($timestamp) {
+    if ( $content =~ s/ timestamp='(.+?)'// ) {
+        my $timestamp = $1;
         like(
             $timestamp,
             qr/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}/,
             'timestamp is formatted correctly'
+        );
+    }
+    else {
+        ok(
+            0,
+            'message has timestamp'
         );
     }
 

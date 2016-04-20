@@ -7,7 +7,9 @@ our $VERSION = '0.01';
 
 use Exporter qw( import );
 
+## no critic (Modules::ProhibitAutomaticExportation)
 our @EXPORT = qw( tc_message );
+## use critic
 
 sub tc_message {
     my %args = @_;
