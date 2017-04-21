@@ -51,7 +51,7 @@ sub _timestamp {
         $y + 1900, $mo + 1, $d,
         $h, $mi, $s,
 
-        # We only need 3 places of precision so if we multiply it be 1,000 we
+        # We only need 3 places of precision so if we multiply it by 1,000 we
         # can just treat it as an integer.
         $float * 1000,
     );
