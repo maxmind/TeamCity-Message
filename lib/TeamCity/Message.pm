@@ -12,6 +12,7 @@ use Exporter qw( import );
 ## no critic (Modules::ProhibitAutomaticExportation)
 our @EXPORT = qw( tc_message );
 ## use critic
+our @EXPORT_OK = ( @EXPORT, 'tc_timestamp' );
 
 sub tc_message {
     my %args = @_;
@@ -28,7 +29,7 @@ sub tc_message {
             $msg .= qq{ $name='} . _escape($value) . q{'};
         }
 
-        $msg .= _timestamp()
+        $msg .= q{ timestamp='} . tc_timestamp() . q{'}
             unless $content->{timestamp};
     }
     else {
@@ -40,14 +41,13 @@ sub tc_message {
     return $msg;
 }
 
-sub _timestamp {
+sub tc_timestamp {
     my $now = time;
-
     my ( $s, $mi, $h, $d, $mo, $y ) = ( gmtime($now) )[ 0 .. 5 ];
 
     my $float = ( $now - int($now) );
     return sprintf(
-        q{ timestamp='%4d-%02d-%02dT%02d:%02d:%02d.%03d'},
+        '%4d-%02d-%02dT%02d:%02d:%02d.%03d',
         $y + 1900, $mo + 1, $d,
         $h, $mi, $s,
 
@@ -105,11 +105,11 @@ for more details on TeamCity build messages.
 
 =head1 API
 
-This module provides a single subroutine exported by default, C<tc_message>,
-which can be used to generate properly formatted and escaped TeamCity build
-messages.
 
 =head2 tc_message(...)
+
+Exported by default, this subroutine can be used to generate properly formatted
+and escaped TeamCity build message.
 
 This subroutine accepts the following arguments:
 
@@ -135,6 +135,24 @@ When the C<content> parameter is a hash reference, this subroutine will always
 add a "timestamp" to the message matching the current time. You can provide an
 explicit C<timestamp> value in the C<content> if you want to set this
 yourself.
+
+=head2 tc_timestamp()
+
+Exported on demand, this subroutine will return a string containing the current
+timestamp formatted suitably for consumption by TeamCity.  You can pass this
+to the C<tc_message(...)> function like so:
+
+    my $remembered_timestamp = tc_timestamp();
+
+    # ...time passes...
+
+    print STDOUT tc_message(
+        type    => 'message',
+        content => {
+            text => 'This is a build message.',
+            timestamp => $remembered_timestamp,
+        }
+    );
 
 =head1 SUPPORT
 

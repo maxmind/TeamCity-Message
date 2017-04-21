@@ -38,11 +38,10 @@ for more details on TeamCity build messages.
 
 # API
 
-This module provides a single subroutine exported by default, `tc_message`,
-which can be used to generate properly formatted and escaped TeamCity build
-messages.
-
 ## tc\_message(...)
+
+Exported by default, this subroutine can be used to generate properly formatted
+and escaped TeamCity build message.
 
 This subroutine accepts the following arguments:
 
@@ -64,6 +63,24 @@ When the `content` parameter is a hash reference, this subroutine will always
 add a "timestamp" to the message matching the current time. You can provide an
 explicit `timestamp` value in the `content` if you want to set this
 yourself.
+
+## tc\_timestamp()
+
+Exported on demand, this subroutine will return a string containing the current
+timestamp formatted suitably for consumption by TeamCity.  You can pass this
+to the `tc_message(...)` function like so:
+
+    my $remembered_timestamp = tc_timestamp();
+
+    # ...time passes...
+
+    print STDOUT tc_message(
+        type    => 'message',
+        content => {
+            text => 'This is a build message.',
+            timestamp => $remembered_timestamp,
+        }
+    );
 
 # SUPPORT
 
